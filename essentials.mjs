@@ -1,7 +1,7 @@
 import { Player } from "./player.mjs";
 
-const raycast_increment = 0.15;
-const raycast_increment_small = 0.02;
+const raycast_increment = 0.12;
+const raycast_increment_small = 0.025;
 
 function Vector2(_x, _y) {
     let x = _x;
@@ -149,7 +149,7 @@ function Hierarchy(renderer, ctx) {
         const angle_increment = 2.0 * half_angle / rays;
         const theta_start = player.theta_radians - half_angle;
 
-        const render_distance = 70.0;
+        const render_distance = 35.0;
         const rect_size = renderer.width / rays;
 
         // const gradient = ctx.createLinearGradient(0, renderer.height / 2, 0, renderer.height);
@@ -168,7 +168,10 @@ function Hierarchy(renderer, ctx) {
         // const skybox_width = 1400 / 512 * renderer.height;
         // renderer.style.backgroundPosition = `-${(player.theta_radians / (2 * Math.PI) * skybox_width) % skybox_width}px 0px`;
 
-        ctx.fillStyle = "#5c2e31";
+        const gradient = ctx.createLinearGradient(0, renderer.height * 0.5, 0, renderer.height * 0.7);
+        gradient.addColorStop(0, "#3e1f21");
+        gradient.addColorStop(1, "#663437");
+        ctx.fillStyle = gradient;
         ctx.fillRect(0, renderer.height / 2, renderer.width, renderer.height / 2);
 
         for (let i = 0; i < rays; i++) {
@@ -190,7 +193,12 @@ function Hierarchy(renderer, ctx) {
 
                 // 62, 31, 33
 
-                ctx.fillStyle = "#30181a";
+                // 48, 24, 26 outline
+
+                ctx.fillStyle = `rgb(
+                    ${48 + fog_multiplier * (62 - 48)}, 
+                    ${24 + fog_multiplier * (31 - 24)}, 
+                    ${26 + fog_multiplier * (33 - 26)})`;
                 ctx.fillRect(
                     rect_size * i - 0.25, renderer.height / 2 - height / 2 - 5,
                     rect_size + 0.5, height + 10);
