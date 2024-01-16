@@ -94,7 +94,7 @@ function Player(_speed) {
         }
 
         // Rotate player accordingly
-        gameobject.theta_radians += rotation * Math.PI / 12 * delta;
+        gameobject.theta_radians += rotation * Math.PI / 10 * delta;
     };
 
     return gameobject;
