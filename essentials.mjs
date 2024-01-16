@@ -6,6 +6,7 @@ const raycast_increment_small = 0.025;
 function Vector2(_x, _y) {
     let x = _x;
     let y = _y;
+    let magnitude = 0;
 
     function add(vector2) {
         x += vector2.x;
@@ -15,11 +16,24 @@ function Vector2(_x, _y) {
     function multiplyScalar(v) {
         x *= v;
         y *= v;
+        magnitude *= v;
     }
 
     function divideScalar(v) {
         x /= v;
         y /= v;
+        magnitude /= v;
+    }
+
+    function updateMagnitude() {
+        magnitude = Math.sqrt(x ** 2 + y ** 2);
+    }
+
+    function normalize() {
+        if (magnitude != 0) {
+            divideScalar(magnitude);
+            magnitude = 1;
+        }
     }
 
     function snapped(cell_size) {
@@ -29,13 +43,13 @@ function Vector2(_x, _y) {
         );
     }
 
+    updateMagnitude();
+
     return {
         get x() { return x; },
         get y() { return y; },
-        add: add,
-        multiplyScalar: multiplyScalar,
-        divideScalar: divideScalar,
-        snapped: snapped
+        get magnitude() { return magnitude; },
+        add, multiplyScalar, divideScalar, snapped, normalize
     };
 }
 

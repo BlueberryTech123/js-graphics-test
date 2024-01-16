@@ -78,19 +78,21 @@ function Player(_speed) {
         }
 
         // Changes in x and y axis
-        const delta_x = Math.cos(gameobject.theta_radians) * verticalAxis * speed * delta
-            + Math.cos(gameobject.theta_radians + Math.PI / 2) * horizontalAxis * speed * delta;
-        const delta_y = Math.sin(gameobject.theta_radians) * verticalAxis * speed * delta
-            + Math.sin(gameobject.theta_radians + Math.PI / 2) * horizontalAxis * speed * delta;
+        const _delta = new Vector2(Math.cos(gameobject.theta_radians) * verticalAxis
+            + Math.cos(gameobject.theta_radians + Math.PI / 2) * horizontalAxis,
+            Math.sin(gameobject.theta_radians) * verticalAxis
+            + Math.sin(gameobject.theta_radians + Math.PI / 2) * horizontalAxis);
+        _delta.normalize(); // Make sure the player can't move faster diagonally
+        _delta.multiplyScalar(speed * delta); // Set speed magnitude
         
-        gameobject.position.add(new Vector2(delta_x, 0));
+        gameobject.position.add(new Vector2(_delta.x, 0));
         if (hierarchy.inCollider(gameobject.position, ["raycast"])) { // If moving on x axis moves to an occupied space, undo movement
-            gameobject.position.add(new Vector2(-delta_x, 0));
+            gameobject.position.add(new Vector2(-_delta.x, 0));
         }
         
-        gameobject.position.add(new Vector2(0, delta_y));
+        gameobject.position.add(new Vector2(0, _delta.y));
         if (hierarchy.inCollider(gameobject.position, ["raycast"])) { // If moving on y axis moves to an occupied space, undo movement
-            gameobject.position.add(new Vector2(0, -delta_y));
+            gameobject.position.add(new Vector2(0, -_delta.y));
         }
 
         // Rotate player accordingly
