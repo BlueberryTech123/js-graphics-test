@@ -13,7 +13,7 @@ function Map(path, _cell_size = 2) {
         fetch(path).then((response) => {
             return response.text();
         }).then((raw_text) => {
-            map = raw_text.split("\r\n"); // Translate raw text onto an array (map)
+            map = raw_text.split("\n"); // Translate raw text onto an array (map)
             map_width = map[0].length;
             map_height = map.length;
 

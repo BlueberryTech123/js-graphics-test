@@ -107,7 +107,7 @@ function Scene() {
 
         // Update other objects
         hierarchy.update(delta);
-        displayMinimap();
+        // displayMinimap();
 
         // Render debug information
         fps_display.innerHTML = `${Math.round(1 / delta)} FPS<br>Delta: ${delta}`;

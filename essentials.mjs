@@ -180,16 +180,16 @@ function Hierarchy(renderer, ctx) {
 
                 ctx.fillStyle = "#30181a";
                 ctx.fillRect(
-                    rect_size * i - 1, renderer.height / 2 - height / 2 - 5,
-                    rect_size + 1, height + 10);
+                    rect_size * i - 0.25, renderer.height / 2 - height / 2 - 5,
+                    rect_size + 0.5, height + 10);
 
                 ctx.fillStyle = `rgb(
                     ${158 + fog_multiplier * (62 - 158)}, 
                     ${95 + fog_multiplier * (31 - 95)}, 
                     ${99 + fog_multiplier * (33 - 99)})`;
                 ctx.fillRect(
-                    rect_size * i - 1.5, renderer.height / 2 - height / 2,
-                    rect_size + 3, height);
+                    rect_size * i - 0.5, renderer.height / 2 - height / 2,
+                    rect_size + 1, height);
             }
         }
     }
