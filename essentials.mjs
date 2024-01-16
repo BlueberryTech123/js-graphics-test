@@ -1,5 +1,8 @@
 import { Player } from "./player.mjs";
 
+const raycast_increment = 0.15;
+const raycast_increment_small = 0.02;
+
 function Vector2(_x, _y) {
     let x = _x;
     let y = _y;
@@ -108,16 +111,25 @@ function Hierarchy(renderer, ctx) {
     function raycast(origin, normalized_direction, layer_mask, max_distance) {
         let position = new Vector2(origin.x, origin.y); // Clone vectors (so we don't accidentally modify the original)
         let increment = new Vector2(normalized_direction.x, normalized_direction.y); // Clone vectors (so we don't accidentally modify the original)
-        increment.multiplyScalar(0.1);
+        increment.multiplyScalar(raycast_increment);
+        let increment_small = new Vector2(normalized_direction.x, normalized_direction.y);
+        increment_small.multiplyScalar(-raycast_increment_small);
 
-        for (var i = 0; i <= max_distance; i += 0.1) { // Move "projectile" by increment until it hits something
+        for (var i = 0; i <= max_distance; i += raycast_increment) { // Move "projectile" by increment until it hits something
             position.add(increment);
             const collision = inCollider(position, layer_mask);
             if (collision) {
+                let inch_back = 0;
+                
+                while (inCollider(position, layer_mask)) {
+                    position.add(increment_small);
+                    inch_back += raycast_increment_small;
+                }
+
                 return {
                     gameobject: collision,
                     point: position,
-                    distance: i
+                    distance: i - inch_back
                 }; // Return hit object
             }
         }
@@ -133,7 +145,7 @@ function Hierarchy(renderer, ctx) {
         // Render map
 
         const rays = 256;
-        const half_angle = Math.PI / 3.0;
+        const half_angle = 30 * (Math.PI / 180);
         const angle_increment = 2.0 * half_angle / rays;
         const theta_start = player.theta_radians - half_angle;
 

@@ -1,6 +1,6 @@
 import { Vector2, GameObject } from "./essentials.mjs";
 
-function Map(path, _cell_size = 2) {
+function Map(path, _cell_size = 1.0) {
     let gameobject = new GameObject();
 
     let map = null;

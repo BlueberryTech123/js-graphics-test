@@ -4,7 +4,7 @@ function Player(_speed) {
     const speed = _speed;
 
     let gameobject = new GameObject();
-    gameobject.position = new Vector2(20, 20);
+    gameobject.position = new Vector2(4, 4);
     let locked = true;
 
     let horizontalAxisRaw = {left: 0, right: 0};
@@ -94,7 +94,7 @@ function Player(_speed) {
         }
 
         // Rotate player accordingly
-        gameobject.theta_radians += rotation * Math.PI / 6 * delta;
+        gameobject.theta_radians += rotation * Math.PI / 12 * delta;
     };
 
     return gameobject;
