@@ -108,12 +108,9 @@ function Hierarchy(renderer, ctx) {
     function raycast(origin, normalized_direction, layer_mask, max_distance) {
         let position = new Vector2(origin.x, origin.y); // Clone vectors (so we don't accidentally modify the original)
         let increment = new Vector2(normalized_direction.x, normalized_direction.y); // Clone vectors (so we don't accidentally modify the original)
-        increment.multiplyScalar(0.25);
+        increment.multiplyScalar(0.1);
 
-        let increment_small = new Vector2(normalized_direction.x, normalized_direction.y); // Clone vectors (so we don't accidentally modify the original)
-        increment_small.multiplyScalar(-0.1);
-
-        for (var i = 0; i <= max_distance; i += 0.1) { // Move "projectile" by 0.75 until it hits something
+        for (var i = 0; i <= max_distance; i += 0.1) { // Move "projectile" by increment until it hits something
             position.add(increment);
             const collision = inCollider(position, layer_mask);
             if (collision) {
@@ -140,7 +137,7 @@ function Hierarchy(renderer, ctx) {
         const angle_increment = 2.0 * half_angle / rays;
         const theta_start = player.theta_radians - half_angle;
 
-        const render_distance = 45.0;
+        const render_distance = 70.0;
         const rect_size = renderer.width / rays;
 
         // const gradient = ctx.createLinearGradient(0, renderer.height / 2, 0, renderer.height);
@@ -159,6 +156,9 @@ function Hierarchy(renderer, ctx) {
         // const skybox_width = 1400 / 512 * renderer.height;
         // renderer.style.backgroundPosition = `-${(player.theta_radians / (2 * Math.PI) * skybox_width) % skybox_width}px 0px`;
 
+        ctx.fillStyle = "#5c2e31";
+        ctx.fillRect(0, renderer.height / 2, renderer.width, renderer.height / 2);
+
         for (let i = 0; i < rays; i++) {
             const theta_radians = theta_start + i * angle_increment;
             const _raycast = raycast(player.position, new Vector2(
@@ -172,16 +172,24 @@ function Hierarchy(renderer, ctx) {
                 if (actual_distance == 0) actual_distance = 1;
 
                 const height = renderer.height / actual_distance; // size / distance
-                const fog_multiplier = 1 - _raycast.distance / render_distance;
+                const fog_multiplier = _raycast.distance / render_distance;
                 // console.log(_raycast.distance)
                 // console.log(height);
 
-                // 122, 151, 191
+                // 62, 31, 33
 
-                ctx.fillStyle = `rgb(${255 * fog_multiplier}, ${255 * fog_multiplier}, ${255 * fog_multiplier})`;
+                ctx.fillStyle = "#30181a";
                 ctx.fillRect(
-                    rect_size * i, renderer.height / 2 - height / 2,
-                    rect_size + 1, height);
+                    rect_size * i - 1, renderer.height / 2 - height / 2 - 5,
+                    rect_size + 1, height + 10);
+
+                ctx.fillStyle = `rgb(
+                    ${158 + fog_multiplier * (62 - 158)}, 
+                    ${95 + fog_multiplier * (31 - 95)}, 
+                    ${99 + fog_multiplier * (33 - 99)})`;
+                ctx.fillRect(
+                    rect_size * i - 1.5, renderer.height / 2 - height / 2,
+                    rect_size + 3, height);
             }
         }
     }

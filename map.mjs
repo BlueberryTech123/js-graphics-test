@@ -1,6 +1,6 @@
 import { Vector2, GameObject } from "./essentials.mjs";
 
-function Map(path, _cell_size = 4) {
+function Map(path, _cell_size = 2) {
     let gameobject = new GameObject();
 
     let map = null;
@@ -53,10 +53,11 @@ function Map(path, _cell_size = 4) {
         switch (mapCellAt(snapped.x, snapped.y)) {
             case "0": // Square
                 return true;
-            case "1": // Circle (at least i tried lmao)
+            case "1": // Circle
                 snapped.multiplyScalar(cell_size);
                 snapped.add(new Vector2(cell_size / 2, cell_size / 2));
-                return (snapped.x - position.x)^2 + (snapped.y - position.y)^2 <= 0.25;
+                const distance = Math.sqrt((snapped.x - position.x) ** 2 + (snapped.y - position.y) ** 2);
+                return distance <= cell_size / 2;
             default:
                 return false;
         }

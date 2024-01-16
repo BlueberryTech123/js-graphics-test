@@ -7,7 +7,7 @@ body {
     image-rendering: pixelated;
 }
 canvas {
-    background: #111;
+    background: #3e1f21;
     /* background-image: url("sky.png"); */
     /* background-size: cover; */
 }
@@ -24,4 +24,16 @@ canvas {
     position: fixed;
     left: calc(50vw - 50vh);
     bottom: 0px;
+
+    pointer-events: none;
+}
+#crosshair {
+    width: 4vh;
+    height: 4vh;
+    position: fixed;
+    left: 50vw;
+    top: 50vh;
+    transform: translate(-50%, -50%);
+
+    pointer-events: none;
 }

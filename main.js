@@ -83,7 +83,7 @@ function Scene() {
 
         // Load player
         hierarchy = new Hierarchy(renderer, ctx);
-        player = new Player(2.5);
+        player = new Player(1.25);
         hierarchy.add(player, "player", true);
     }
 
