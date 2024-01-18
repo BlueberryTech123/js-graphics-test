@@ -36,6 +36,7 @@ function Map(path, _cell_size = 1.0) {
 
         return snapped;
     }
+    
     gameobject.inCollider = (position) => {
         if (!map_loaded) {
             throw new Error('Map has not been loaded yet, make sure map_loaded is true');
@@ -50,14 +51,17 @@ function Map(path, _cell_size = 1.0) {
             return true;
         }
 
-        switch (mapCellAt(snapped.x, snapped.y)) {
+        const cur_cell = mapCellAt(snapped.x, snapped.y);
+        let distance = null;
+
+        switch (cur_cell) {
             case "0": // Square
                 return true;
             case "1": // Circle
                 snapped.multiplyScalar(cell_size);
                 snapped.add(new Vector2(cell_size / 2, cell_size / 2));
                 const distance = Math.sqrt((snapped.x - position.x) ** 2 + (snapped.y - position.y) ** 2);
-                return distance <= cell_size / 2;
+                return distance <= cell_size / 2;;
             default:
                 return false;
         }

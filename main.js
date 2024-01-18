@@ -83,8 +83,13 @@ function Scene() {
 
         // Load player
         hierarchy = new Hierarchy(renderer, ctx);
-        player = new Player(0.75);
+        player = new Player(6.5, renderer);
         hierarchy.add(player, "player", true);
+
+        // Add lock events
+        renderer.addEventListener("click", async () => {
+            await renderer.requestPointerLock();
+        });
     }
 
     // Run every frame
@@ -102,7 +107,7 @@ function Scene() {
 
         // Calculate delta
         const new_time = Date.now();
-        const delta = (new_time - old_time) / 100;
+        const delta = (new_time - old_time) / 1000;
         old_time = new_time;
 
         // Update other objects

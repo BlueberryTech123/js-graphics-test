@@ -1,6 +1,6 @@
 import { Vector2, GameObject } from "./essentials.mjs";
 
-function Player(_speed) {
+function Player(_speed, renderer) {
     const speed = _speed;
 
     let gameobject = new GameObject();
@@ -18,8 +18,16 @@ function Player(_speed) {
     let sensitivity = 0.6;
     let sprinting = 0;
 
+    let timeout_mouse = null;
+    let _deelllttaaaaaaaa_MUAHAHAHAHAHA = 1;
+
     document.addEventListener("keydown", onKeyDown, false);
     document.addEventListener("keyup", onKeyUp, false);
+    document.addEventListener("mousemove", (event) => {
+        clearTimeout(timeout_mouse);
+        rotation = event.movementX;
+        timeout_mouse = setTimeout(() => { rotation = 0; }, _deelllttaaaaaaaa_MUAHAHAHAHAHA * 1000);
+    });
 
     // Input functions
 
@@ -77,6 +85,12 @@ function Player(_speed) {
             return;
         }
 
+        if (document.pointerLockElement !== renderer) {
+            return;
+        }
+
+        _deelllttaaaaaaaa_MUAHAHAHAHAHA = delta;
+
         // Changes in x and y axis
         const _delta = new Vector2(Math.cos(gameobject.theta_radians) * verticalAxis
             + Math.cos(gameobject.theta_radians + Math.PI / 2) * horizontalAxis,
@@ -96,7 +110,8 @@ function Player(_speed) {
         }
 
         // Rotate player accordingly
-        gameobject.theta_radians += rotation * Math.PI / 10 * delta;
+        
+        gameobject.theta_radians += rotation * sensitivity * 0.1 * delta;
     };
 
     return gameobject;
