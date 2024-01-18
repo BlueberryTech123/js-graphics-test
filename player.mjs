@@ -15,7 +15,7 @@ function Player(_speed, renderer) {
     let verticalAxis = 0;
     let rotation = 0;
 
-    let sensitivity = 0.6;
+    let sensitivity = 0.5;
     let sprinting = 0;
 
     let timeout_mouse = null;
@@ -47,6 +47,7 @@ function Player(_speed, renderer) {
         if (keyCode == "Shift") sprinting = 1;
 
         rotation = rotationRaw.right - rotationRaw.left;
+        rotation *= 6 * Math.PI;
         updateAxis();
     }
     function onKeyUp(event) {
